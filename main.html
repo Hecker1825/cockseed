@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Générateur et Décodeur de Seed</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        input[type="text"], button {
+            margin-bottom: 10px;
+            padding: 5px;
+            width: 300px;
+        }
+        button {
+            padding: 5px 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .resultat {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        img {
+            margin-top: 20px;
+            border: 2px solid black;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Section pour générer une seed -->
+	<img id="image1" src="logo.png" alt="lelogobatard">
+    <h2>CockSeed</h2>
+    <label for="largeur">Largeur (1 à 20 cm) :</label>
+    <input type="text" id="largeur" placeholder="Entrez la largeur ici"><br>
+
+    <label for="longueur">Longueur (1 à 20 cm) :</label>
+    <input type="text" id="longueur" placeholder="Entrez la longueur ici"><br>
+
+    <label for="epaisseur">Épaisseur (1 à 20 cm) :</label>
+    <input type="text" id="epaisseur" placeholder="Entrez l'épaisseur ici"><br>
+
+    <button onclick="genererSeed()">Générer le Seed</button>
+    <div class="resultat" id="resultat"></div>
+
+    <!-- Section pour reconvertir une seed -->
+    <h2>Décodeur de Seed</h2>
+    <label for="seed">Entrez une Seed :</label>
+    <input type="text" id="seed" placeholder="Entrez une seed ici"><br>
+
+    <button onclick="decrypterSeed()">Afficher les valeurs</button>
+    <div class="resultat" id="valeursOriginales"></div>
+
+    <!-- Affichage de l'image redimensionnée -->
+    <img id="image" src="paff.png" alt="Image redimensionnée">
+
+    <script>
+        // Fonction pour générer une seed
+        function genererSeed() {
+            const largeur = parseInt(document.getElementById('largeur').value);
+            const longueur = parseInt(document.getElementById('longueur').value);
+            const epaisseur = parseInt(document.getElementById('epaisseur').value);
+
+            // Vérification des entrées
+            if (
+                isNaN(largeur) || isNaN(longueur) || isNaN(epaisseur) ||
+                largeur < 1 || largeur > 20 ||
+                longueur < 1 || longueur > 20 ||
+                epaisseur < 1 || epaisseur > 20
+            ) {
+                document.getElementById('resultat').textContent = 
+                    "Veuillez entrer des valeurs valides : largeur (1-20), longueur (1-20), épaisseur (1-20).";
+                return;
+            }
+
+            // Générer la seed (combinaison unique avec une plage de 8 chiffres)
+            let seed = (largeur * 10000 + longueur * 100 + epaisseur).toString();
+
+            // Assurez-vous que la seed a exactement 8 caractères (ajout de zéros au début si nécessaire)
+            while (seed.length < 8) {
+                seed = "0" + seed;
+            }
+
+            document.getElementById('resultat').textContent = `Le seed généré est : ${seed}`;
+        }
+
+        // Fonction pour décrypter une seed
+        function decrypterSeed() {
+            const seed = document.getElementById('seed').value;
+
+            // Vérification de la seed
+            if (seed.length !== 8 || isNaN(parseInt(seed))) {
+                document.getElementById('valeursOriginales').textContent = 
+                    "Veuillez entrer un seed valide (exactement 8 caractères numériques).";
+                return;
+            }
+
+            // Décrypter les valeurs
+            let seedValue = parseInt(seed); // Convertir la seed en nombre
+            let largeur = Math.floor(seedValue / 10000);
+            let longueur = Math.floor((seedValue % 10000) / 100);
+            let epaisseur = seedValue % 100;
+
+            // Vérifier si les valeurs sont valides
+            if (
+                largeur < 1 || largeur > 20 ||
+                longueur < 1 || longueur > 20 ||
+                epaisseur < 1 || epaisseur > 20
+            ) {
+                document.getElementById('valeursOriginales').textContent = 
+                    "Impossible d'afficher les valeurs : seed invalide.";
+                return;
+            }
+
+            // Afficher les valeurs originales
+            document.getElementById('valeursOriginales').textContent = 
+                `Largeur : ${largeur} cm, Longueur : ${longueur} cm, Épaisseur : ${epaisseur} cm`;
+
+            // Redimensionner l'image
+            const image = document.getElementById('image');
+            image.style.width = (largeur * 10) + "px"; // 1 cm = 10 px
+            image.style.height = (longueur * 10) + "px"; // 1 cm = 10 px
+        }
+    </script>
+
+</body>
+</html>
+
