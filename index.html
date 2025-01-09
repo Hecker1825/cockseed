@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Générateur et Décodeur de Seed</title>
+    <title>Générateur et Décodeur de Paff</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -49,13 +49,13 @@
     <label for="epaisseur">Épaisseur (1 à 20 cm) :</label>
     <input type="text" id="epaisseur" placeholder="Entrez l'épaisseur ici"><br>
 
-    <button onclick="genererSeed()">Générer le Seed</button>
+    <button onclick="genererSeed()">Générer la CockSeed</button>
     <div class="resultat" id="resultat"></div>
 
     <!-- Section pour reconvertir une seed -->
-    <h2>Décodeur de Seed</h2>
-    <label for="seed">Entrez une Seed :</label>
-    <input type="text" id="seed" placeholder="Entrez une seed ici"><br>
+    <h2>CockViewer</h2>
+    <label for="seed">Entrez une CockSeed :</label>
+    <input type="text" id="seed" placeholder="Entrez une CockSeed ici"><br>
 
     <button onclick="decrypterSeed()">Afficher les valeurs</button>
     <div class="resultat" id="valeursOriginales"></div>
@@ -90,7 +90,7 @@
                 seed = "0" + seed;
             }
 
-            document.getElementById('resultat').textContent = `Le seed généré est : ${seed}`;
+            document.getElementById('resultat').textContent = `La CockSeed généré est : ${seed}`;
         }
 
         // Fonction pour décrypter une seed
@@ -117,7 +117,7 @@
                 epaisseur < 1 || epaisseur > 20
             ) {
                 document.getElementById('valeursOriginales').textContent = 
-                    "Impossible d'afficher les valeurs : seed invalide.";
+                    "Impossible d'afficher les valeurs : CockSeed invalide.";
                 return;
             }
 
